@@ -1,0 +1,5 @@
+mesa==1.2.1
+nashpy
+numpy
+pandas
+matplotlib
