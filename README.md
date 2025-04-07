@@ -14,6 +14,4 @@ To run the simulation, install the required libraries by executing the following
 
 
 ## Authors
-Best regards,
-
 Najem & Yazan
