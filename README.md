@@ -4,11 +4,9 @@ This project combines Game Theory and Agent-Based Simulation to evaluate and opt
 
 Installation
 To run the simulation, install the required libraries by executing the following command in your terminal, depending on your operating system:
-
 Windows:
 
 pip install -r libraries.txt
-
 Linux / MacOS:
 
 pip3 install -r libraries.txt
