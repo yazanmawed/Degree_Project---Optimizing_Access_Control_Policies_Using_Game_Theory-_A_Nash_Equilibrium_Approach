@@ -12,6 +12,5 @@ To run the simulation, install the required libraries by executing the following
   ```bash
   pip3 install -r libraries.txt
 
-
 ## Authors
 Najem & Yazan
