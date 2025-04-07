@@ -138,7 +138,7 @@ class DefenderAgent(Agent):
     """Agent representing the system administrator (defender)."""
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.target_breach_rate = 0.25
+        self.target_breach_rate = 0.3
         
     def step(self):
         breach_rate_ma = self.model.get_moving_breach_rate()
