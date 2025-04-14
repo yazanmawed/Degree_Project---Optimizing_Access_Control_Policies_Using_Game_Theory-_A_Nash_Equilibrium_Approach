@@ -25,6 +25,9 @@ def run_game_theory_analysis():
         print(f"Equilibrium {i+1}:")
         print("  Player 1 strategy (Defender):", p1_strategy)
         print("  Player 2 strategy (Attacker):", p2_strategy)
+
+    if not equilibria:
+        raise ValueError("No Nash Equilibrium found.")
     
     return [equilibria[0][0].tolist(), equilibria[0][1].tolist()]
 
