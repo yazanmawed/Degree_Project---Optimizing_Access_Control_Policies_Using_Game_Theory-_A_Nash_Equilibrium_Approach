@@ -45,10 +45,6 @@ class PureABACModel(Model):
         self.breach_rates_history = []
         self.moving_window = 10
         
-        for i in range(self.num_employees):
-            employee = EmployeeAgent(i, self)
-            self.schedule.add(employee)
-        
         for i in range(self.num_attackers):
             attacker_id = i + self.num_employees
             attacker = AttackerAgent(attacker_id, self)
@@ -81,36 +77,6 @@ class PureABACModel(Model):
         self.breach_rates_history.append(current_rate)
         self.datacollector.collect(self)
         self.schedule.step()
-
-class EmployeeAgent(Agent):
-    """Agent representing legitimate users."""
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        self.attributes = {
-            "department": np.random.choice(["R&D", "Finance", "HR", "IT"]),
-            "clearance": np.random.choice(["low", "medium", "high"], p=[0.6, 0.3, 0.1]),
-            "location": np.random.choice(["office", "remote"]),
-            "time": "business_hours"
-        }
-        
-    def step(self):
-        if np.random.rand() < 0.2:
-            self.attempt_access()
-            
-    def attempt_access(self):
-        return self.abac_access()
-    
-    def abac_access(self):
-        if self.attributes["clearance"] == "high":
-            return True
-            
-        elif self.attributes["clearance"] == "medium" and self.attributes["department"] == "IT":
-            return True
-            
-        elif self.attributes["location"] == "office" and self.attributes["time"] == "business_hours":
-            return self.attributes["department"] in ["R&D", "IT"]
-            
-        return False
 
 class AttackerAgent(Agent):
     """Agent representing attackers."""
