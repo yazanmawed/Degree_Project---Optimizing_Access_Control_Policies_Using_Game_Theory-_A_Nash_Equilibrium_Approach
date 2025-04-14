@@ -32,6 +32,9 @@ def run_game_theory_analysis():
             print(f"If Defender plays {defender_strat} and Attacker plays {attacker_strat}:")
             print(f"  Defender payoff: {defender_payoffs[i, j]}")
             print(f"  Attacker payoff: {attacker_payoffs[i, j]}")
+
+    if not equilibria:
+        raise ValueError("No Nash Equilibrium found.")
     
     return equilibria
 
