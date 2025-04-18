@@ -134,7 +134,6 @@ def create_visualization(results):
     print("Visualization saved to: pure_abac_simulation.png")
 
 
-# Main Execution
 if __name__ == "__main__":
     print("=== Pure ABAC Access Control Policy Modeling ===")
     print("Agent-Based Simulation Without Game Theory\n")
