@@ -1,5 +1,4 @@
 import numpy as np
-import nashpy as nash
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -8,26 +7,9 @@ from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
 
 
-def run_game_theory_analysis():
-    """Run game theory analysis and return the equilibria"""
-    print("\n=== Game Theory Analysis (Pure ABAC) ===\n")
-    
-    defender_payoffs = [[-6, 4]]
-    attacker_payoffs = [[3, -2]]
-    game = nash.Game(defender_payoffs, attacker_payoffs)
-    equilibria = list(game.support_enumeration())
-
-    print("Nash Equilibria:")
-    for eq in equilibria:
-        defender_strategy, attacker_strategy = eq
-        print(f"Defender: {defender_strategy}, Attacker: {attacker_strategy}")
-    
-    return equilibria
-
-
 class PureABACModel(Model):
-    """Mesa model for pure ABAC simulation."""
-    def __init__(self, num_employees=50, num_attackers=10, defender_strategy=None, attacker_strategy=None):
+    """Mesa model for pure ABAC simulation without game theory."""
+    def __init__(self, num_employees=50, num_attackers=10, attacker_strategy=None):
         super().__init__()
         self.schedule = RandomActivation(self)
         self.num_employees = num_employees
@@ -37,15 +19,12 @@ class PureABACModel(Model):
         self.access_attempts = 0
         self.breach_rates_history = []
         self.moving_window = 10
-        self.defender_strategy = [1.0, 0.0]
-        if attacker_strategy is not None:
-            self.attacker_strategy = attacker_strategy
-        else:
-            self.attacker_strategy = [0.5, 0.5]
+
+        self.attacker_strategy = attacker_strategy or [0.5, 0.5]
 
         for i in range(self.num_attackers):
             attacker_id = i + self.num_employees
-            attacker = AttackerAgent(attacker_id, self)
+            attacker = AttackerAgent(attacker_id, self, self.attacker_strategy)
             self.schedule.add(attacker)
 
         defender_id = self.num_employees + self.num_attackers + 1
@@ -77,19 +56,24 @@ class PureABACModel(Model):
 
 
 class AttackerAgent(Agent):
-    """Agent representing attackers."""
-    def __init__(self, unique_id, model):
+    """Agent representing attackers with fixed attack probabilities."""
+    def __init__(self, unique_id, model, strategy_probs):
         super().__init__(unique_id, model)
+        self.strategy_probs = strategy_probs
+        self.attack_strategy = "phishing"
 
     def step(self):
-        strategy = self.model.attacker_strategy
-        attack_type = np.random.choice(["phishing", "token_theft"], p=strategy)
+        self.attack_strategy = np.random.choice(["phishing", "token_theft"], p=self.strategy_probs)
         self.model.access_attempts += 1
-        if self.execute_attack(attack_type):
+
+        if self.execute_attack():
             self.model.breach_count += 1
 
-    def execute_attack(self, attack_type):
-        success_rate = 0.7 if attack_type == "phishing" else 0.6
+    def execute_attack(self):
+        if self.attack_strategy == "phishing":
+            success_rate = 0.6
+        else:
+            success_rate = 0.75
         return np.random.rand() < success_rate
 
 
@@ -99,20 +83,15 @@ class DefenderAgent(Agent):
         super().__init__(unique_id, model)
         self.target_breach_rate = 0.3
 
-    def step(self):
-        breach_rate_ma = self.model.get_moving_breach_rate()
-        if breach_rate_ma > self.target_breach_rate:
-            pass
-        else:
-            pass
 
-
-def run_simulation(steps=100, defender_strategy=None, attacker_strategy=None):
+def run_simulation(steps=100, attacker_strategy=None):
     print("\n=== Agent-Based Simulation (Pure ABAC) ===\n")
 
-    model = PureABACModel(num_employees=100, num_attackers=20,
-                          defender_strategy=defender_strategy,
-                          attacker_strategy=attacker_strategy)
+    model = PureABACModel(
+        num_employees=100,
+        num_attackers=50,
+        attacker_strategy=attacker_strategy
+    )
 
     print("Initial state:")
     print(f"  Number of employees: {model.num_employees}")
@@ -136,11 +115,13 @@ def run_simulation(steps=100, defender_strategy=None, attacker_strategy=None):
     print(f"  Total breaches: {model.breach_count}")
     print(f"  Final (instant) breach rate: {final_breach_rate:.4f}")
     print(f"  Final (moving average) breach rate: {final_breach_ma:.4f}")
+
     return results
 
 
-def create_visualization(results, equilibria):
+def create_visualization(results):
     print("\n=== Visualization (Pure ABAC) ===\n")
+
     plt.figure(figsize=(12, 8))
     plt.plot(results["Breach Rate"], label="Moving Average Breach", color='green')
     plt.title("Security Breach Rate Over Time (Pure ABAC)")
@@ -152,24 +133,14 @@ def create_visualization(results, equilibria):
     plt.savefig('pure_abac_simulation.png')
     print("Visualization saved to: pure_abac_simulation.png")
 
-    print("\nNash Equilibria from game theory analysis:")
-    for i, eq in enumerate(equilibria):
-        defender_strategy, attacker_strategy = eq
-        print(f"Equilibrium {i+1}:")
-        print(f"  Defender: {defender_strategy}")
-        print(f"  Attacker: {attacker_strategy}")
 
-
+# Main Execution
 if __name__ == "__main__":
     print("=== Pure ABAC Access Control Policy Modeling ===")
-    print("Combining Game Theory and Agent-Based Simulation\n")
+    print("Agent-Based Simulation Without Game Theory\n")
 
-    equilibria = run_game_theory_analysis()
-    defender_strat, attacker_strat = equilibria[0]
+    attacker_strategy = [0.5, 0.5]  # Equal chance for phishing and token theft
+    sim_results = run_simulation(steps=100, attacker_strategy=attacker_strategy)
+    create_visualization(sim_results)
 
-    sim_results = run_simulation(steps=100,
-                                 defender_strategy=defender_strat,
-                                 attacker_strategy=attacker_strat)
-
-    create_visualization(sim_results, equilibria)
     print("\n=== Analysis Complete ===")
