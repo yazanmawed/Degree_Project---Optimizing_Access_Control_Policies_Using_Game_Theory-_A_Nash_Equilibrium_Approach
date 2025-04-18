@@ -10,11 +10,11 @@ from mesa.datacollection import DataCollector
 
 def run_game_theory_analysis():
     """Run game theory analysis and return the equilibria as a list [defender_strategy, attacker_strategy]"""
-    defender_payoffs = np.array([[5, 2], 
-                                 [-6, 4]])
-    
-    attacker_payoffs = np.array([[-2, 1], 
-                                 [3, -2]])
+    defender_payoffs = [[5, 2],
+                        [-6, 4]]
+
+    attacker_payoffs = [[-2, 1],
+                        [3, -2]]
     
     game = nash.Game(defender_payoffs, attacker_payoffs)
     equilibria = list(game.support_enumeration())
@@ -25,17 +25,16 @@ def run_game_theory_analysis():
         print(f"Equilibrium {i+1}:")
         print("  Player 1 strategy (Defender):", p1_strategy)
         print("  Player 2 strategy (Attacker):", p2_strategy)
-        
+
     if not equilibria:
         raise ValueError("No Nash Equilibrium found.")
-
     
     return [equilibria[0][0].tolist(), equilibria[0][1].tolist()]
 
 
 class AccessControlModel(Model):
     """Mesa model for access control simulation"""
-    def __init__(self, num_employees=50, num_attackers=10, initial_policy_mix=(0.5, 0.5), attacker_strategy=(0.5, 0.5)):
+    def __init__(self, num_employees=100, num_attackers=50, initial_policy_mix=(0.5, 0.5), attacker_strategy=(0.5, 0.5)):
         super().__init__()
         self.schedule = RandomActivation(self)
         self.num_employees = num_employees
@@ -46,7 +45,7 @@ class AccessControlModel(Model):
         self.access_attempts = 0
         self.breach_rates_history = []
         self.moving_window = 10
-
+        
         for i in range(self.num_attackers):
             attacker_id = i + self.num_employees
             attacker = AttackerAgent(attacker_id, self)
@@ -97,20 +96,19 @@ class AttackerAgent(Agent):
         phishing_prob, token_theft_prob = self.model.attacker_strategy
 
         if self.attack_strategy == "phishing":
-            base_success = 0.3 * rbac_weight + 0.7 * (1 - rbac_weight)
+            base_success = 0.3 * rbac_weight + 0.6 * (1 - rbac_weight)
             return np.random.rand() < (base_success * phishing_prob)
-
         else:
-            base_success = 0.4 * rbac_weight + 0.6 * (1 - rbac_weight)
+            base_success = 0.3 * rbac_weight + 0.75 * (1 - rbac_weight)
             return np.random.rand() < (base_success * token_theft_prob)
 
 
 class DefenderAgent(Agent):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
-        self.K_s = 0.15
-        self.K_u = 0.15
-        self.damping_factor = 0.6
+        self.K_s = 0.15  
+        self.K_u = 0.15   
+        self.damping_factor = 0.7  
         self.target_breach_rate = 0.3
         self.target_abac_share = 0.4
         self.previous_policy_mix = model.policy_mix
@@ -142,7 +140,7 @@ def run_simulation(steps=100):
 
     model = AccessControlModel(
         num_employees=100,
-        num_attackers=20,
+        num_attackers=50,
         initial_policy_mix=tuple(defender_strategy),
         attacker_strategy=attacker_strategy
     )
