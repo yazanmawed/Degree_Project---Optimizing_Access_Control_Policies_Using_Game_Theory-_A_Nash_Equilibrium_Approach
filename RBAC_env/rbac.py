@@ -2,7 +2,7 @@ import sqlite3
 import random
 
 def main():
-    conn = sqlite3.connect('company.db')
+    conn = sqlite3.connect('strict_rule_company.db')
     c = conn.cursor()
 
     c.execute('''
