@@ -1,6 +1,6 @@
 import sqlite3, random
 
-conn = sqlite3.connect('company.db')
+conn = sqlite3.connect('loose_rule_company.db')
 c = conn.cursor()
 
 c.execute("DROP TABLE IF EXISTS users")
