@@ -71,9 +71,9 @@ class AttackerAgent(Agent):
 
     def execute_attack(self):
         if self.attack_strategy == "phishing":
-            success_rate = 0.6
+            success_rate = 0.46
         else:
-            success_rate = 0.75
+            success_rate = 0.57
         return np.random.rand() < success_rate
 
 
