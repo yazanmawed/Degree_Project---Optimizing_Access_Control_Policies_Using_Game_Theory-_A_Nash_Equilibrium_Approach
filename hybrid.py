@@ -96,10 +96,10 @@ class AttackerAgent(Agent):
         phishing_prob, token_theft_prob = self.model.attacker_strategy
 
         if self.attack_strategy == "phishing":
-            base_success = 0.4 * rbac_weight + 0.6 * (1 - rbac_weight)
+            base_success = 0.3 * rbac_weight + 0.46 * (1 - rbac_weight)
             return np.random.rand() < (base_success * phishing_prob)
         else:
-            base_success = 0.3 * rbac_weight + 0.75 * (1 - rbac_weight)
+            base_success = 0.22 * rbac_weight + 0.57 * (1 - rbac_weight)
             return np.random.rand() < (base_success * token_theft_prob)
 
 
