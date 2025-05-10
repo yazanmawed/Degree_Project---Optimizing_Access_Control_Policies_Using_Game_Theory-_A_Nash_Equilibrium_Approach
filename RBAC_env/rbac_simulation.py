@@ -4,7 +4,7 @@ from collections import defaultdict
 import rbac 
 
 def load_users():
-    conn = sqlite3.connect('company.db')
+    conn = sqlite3.connect('strict_rule_company.db')
     c = conn.cursor()
     c.execute("SELECT username, role FROM users")
     users = [{'username': row[0], 'role': row[1]} for row in c.fetchall()]
