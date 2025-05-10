@@ -5,7 +5,7 @@ from collections import defaultdict
 
 def load_users():
     """Load all users from the database with their full attributes."""
-    conn = sqlite3.connect('company.db')
+    conn = sqlite3.connect('loose_rule_company.db')
     c = conn.cursor()
     c.execute("SELECT username, role, department, clearance FROM users")
     users = []
