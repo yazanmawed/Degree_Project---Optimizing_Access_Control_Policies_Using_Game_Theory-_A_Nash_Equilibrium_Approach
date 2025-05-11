@@ -10,11 +10,11 @@ from mesa.datacollection import DataCollector
 
 def run_game_theory_analysis():
     """Run game theory analysis and return the equilibria as a list [defender_strategy, attacker_strategy]"""
-    defender_payoffs = [[5, 2],
-                        [-6, 4]]
+    defender_payoffs = [[3.4, -3.8],
+                        [-2.6, 2.1]]
 
-    attacker_payoffs = [[-2, 1],
-                        [3, -2]]
+    attacker_payoffs = [[-1.5, 1.1],
+                        [2.2, -2.7]]
     
     game = nash.Game(defender_payoffs, attacker_payoffs)
     equilibria = list(game.support_enumeration())
@@ -109,8 +109,9 @@ class DefenderAgent(Agent):
         self.K_s = 0.15  
         self.K_u = 0.15   
         self.damping_factor = 0.7  
-        self.target_breach_rate = 0.3
-        self.target_abac_share = 0.4
+        initial_breach = self.model.get_current_breach_rate()
+        self.target_breach_rate = initial_breach
+        self.target_abac_share = 0.5
         self.previous_policy_mix = model.policy_mix
 
     def step(self):
