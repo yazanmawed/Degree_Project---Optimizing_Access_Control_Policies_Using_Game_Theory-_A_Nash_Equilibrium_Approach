@@ -8,7 +8,7 @@ from mesa.datacollection import DataCollector
 
 
 class PureABACModel(Model):
-    """Mesa model for pure ABAC simulation"""
+    """Mesa model for pure ABAC simulation."""
     def __init__(self, num_employees=50, num_attackers=10, attacker_strategy=None):
         super().__init__()
         self.schedule = RandomActivation(self)
