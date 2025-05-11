@@ -27,9 +27,9 @@ To run the simulation, install the required libraries by executing the following
 ---
 ## To simulate the environments
 - **For ABAC:**
-  <ins>Go in the ABAC Environment folder and follow the README.md file</ins>
+  <ins>Go in the ABAC Environment folder and follow the instructions in README.md file</ins>
 - **For RBAC:**
-  <ins>Go in the ABAC Environment folder and follow the README.md file</ins>
+  <ins>Go in the RBAC Environment folder and follow the instructions in README.md file</ins>
 
 ## Authors
 ***Najem Aldeen Abu Hamdah & Yazan Almoued***
