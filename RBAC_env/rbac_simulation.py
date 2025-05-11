@@ -1,7 +1,6 @@
-import sqlite3
-import random
+import sqlite3, random, rbac
 from collections import defaultdict
-import rbac 
+
 
 def load_users():
     conn = sqlite3.connect('strict_rule_company.db')
