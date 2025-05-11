@@ -1,5 +1,4 @@
-import sqlite3
-import random
+import sqlite3, random
 
 def main():
     conn = sqlite3.connect('strict_rule_company.db')
