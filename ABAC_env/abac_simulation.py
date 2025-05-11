@@ -1,6 +1,4 @@
-import sqlite3
-import random
-import abac
+import sqlite3, random, abac
 from collections import defaultdict
 
 def load_users():
