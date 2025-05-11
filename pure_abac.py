@@ -8,7 +8,7 @@ from mesa.datacollection import DataCollector
 
 
 class PureABACModel(Model):
-    """Mesa model for pure ABAC simulation without game theory."""
+    """Mesa model for pure ABAC simulation"""
     def __init__(self, num_employees=50, num_attackers=10, attacker_strategy=None):
         super().__init__()
         self.schedule = RandomActivation(self)
@@ -56,7 +56,6 @@ class PureABACModel(Model):
 
 
 class AttackerAgent(Agent):
-    """Agent representing attackers with fixed attack probabilities."""
     def __init__(self, unique_id, model, strategy_probs):
         super().__init__(unique_id, model)
         self.strategy_probs = strategy_probs
@@ -78,7 +77,6 @@ class AttackerAgent(Agent):
 
 
 class DefenderAgent(Agent):
-    """Agent representing the system administrator (defender)."""
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         self.target_breach_rate = 0.3
@@ -136,10 +134,7 @@ def create_visualization(results):
 
 if __name__ == "__main__":
     print("=== Pure ABAC Access Control Policy Modeling ===")
-    print("Agent-Based Simulation Without Game Theory\n")
-
-    attacker_strategy = [0.5, 0.5]  # Equal chance for phishing and token theft
+    attacker_strategy = [0.5, 0.5]
     sim_results = run_simulation(steps=100, attacker_strategy=attacker_strategy)
     create_visualization(sim_results)
-
     print("\n=== Analysis Complete ===")
