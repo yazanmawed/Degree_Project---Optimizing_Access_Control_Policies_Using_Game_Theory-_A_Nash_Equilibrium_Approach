@@ -13,15 +13,15 @@ To run the simulation, install the required libraries by executing the following
   pip3 install -r libraries.txt
 ---
 ## How to run the simulation
-- **To run the hybridmodell**
+- **To run the hybrid model**
   ```bash
   python hybrid.py
   
-- **To run the hybridmodell**
+- **To run the pure abac model**
   ```bash
   python pure_abac.py
   
-- **To run the hybridmodell**
+- **To run the pure rbac model**
   ```bash
   python pure_rbac.py
 ---
