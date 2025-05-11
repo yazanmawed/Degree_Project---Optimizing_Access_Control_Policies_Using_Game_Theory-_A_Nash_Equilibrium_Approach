@@ -12,7 +12,7 @@ To run the simulation, install the required libraries by executing the following
   ```bash
   pip3 install -r libraries.txt
 ---
-## How to run the simulation
+## How to run the simulations
 - **To run the hybrid model**
   ```bash
   python hybrid.py
