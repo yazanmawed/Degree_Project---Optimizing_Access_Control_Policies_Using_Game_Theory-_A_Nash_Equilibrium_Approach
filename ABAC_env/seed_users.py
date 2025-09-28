@@ -15,9 +15,9 @@ c.execute('''
 ''')
 
 user_distribution = {
-    'Admin': 5,
-    'Engineer': 15,
-    'Staff': 30
+    'Admin': 10,
+    'Engineer': 40,
+    'Staff': 59
 }
 
 staff_departments = ['Support', 'HR', 'Logistics']
@@ -55,4 +55,4 @@ for role, count in user_distribution.items():
 conn.commit()
 conn.close()
 
-print("50 users has been created: 5 Admins, 15 Engineers, 30 Staff")
+print("109 users has been created: 10 Admins, 40 Engineers, 59 Staff")
