@@ -10,11 +10,11 @@ from mesa.datacollection import DataCollector
 
 def run_game_theory_analysis():
     """Run game theory analysis and return the equilibria as a list [defender_strategy, attacker_strategy]"""
-    defender_payoffs = [[3.4, -3.8],
-                        [-2.6, 2.1]]
+    defender_payoffs = [[4.1, -4],
+                        [-2.8, 4.2]]
 
-    attacker_payoffs = [[-1.5, 1.1],
-                        [2.2, -2.7]]
+    attacker_payoffs = [[-0.8, 0.8],
+                        [2.1, -0.6]]
     
     game = nash.Game(defender_payoffs, attacker_payoffs)
     equilibria = list(game.support_enumeration())
@@ -96,10 +96,10 @@ class AttackerAgent(Agent):
         phishing_prob, token_theft_prob = self.model.attacker_strategy
 
         if self.attack_strategy == "phishing":
-            base_success = 0.3 * rbac_weight + 0.46 * (1 - rbac_weight)
+            base_success = 0.16 * rbac_weight + 0.42 * (1 - rbac_weight)
             return np.random.rand() < (base_success * phishing_prob)
         else:
-            base_success = 0.22 * rbac_weight + 0.57 * (1 - rbac_weight)
+            base_success = 0.17 * rbac_weight + 0.12 * (1 - rbac_weight)
             return np.random.rand() < (base_success * token_theft_prob)
 
 
@@ -184,6 +184,7 @@ def create_visualization(results, equilibria):
     plt.ylabel("Policy Mix")
     plt.legend()
     plt.grid(True, linestyle='--', alpha=0.7)
+    plt.ylim(0, 1)
 
     plt.subplot(2, 1, 2)
     plt.plot(results["Breach Rate"], label="Moving Average Breach", color='red')
