@@ -18,8 +18,7 @@ def load_users():
     return users
 
 def simulate_phishing(users, attempts=100):
-    """Simulate phishing attacks that steal user credentials."""
-    success_prob = {'Admin': 0.20, 'Engineer': 0.20, 'Staff': 0.60}
+    success_prob = {'Admin': 0.11, 'Engineer': 0.11, 'Staff': 0.61}
     compromised_accounts = []
 
     print("\n==== Phishing Attack Simulation ====")
@@ -39,8 +38,7 @@ def simulate_phishing(users, attempts=100):
     return compromised_accounts
 
 def simulate_token_theft(users, attempts=100):
-    """Simulate attacks that steal session tokens."""
-    theft_prob = {'Admin': 0.20, 'Engineer': 0.20, 'Staff': 0.60}
+    theft_prob = {'Admin': 0.05, 'Engineer': 0.05, 'Staff': 0.15}
     compromised_accounts = []
 
     print("\n==== Token Theft Attack Simulation ====")
